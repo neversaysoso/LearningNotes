@@ -210,7 +210,7 @@ module.exports = {
 * `include`/`exclude`：手动添加必须处理的文件（文件夹）或屏蔽不需要处理的文件（文件夹）（可选）；
 * `query`：为loaders提供额外的设置选项（可选）
 
-#### Babel
+### Babel
 
 Babel是一个编译JavaScript的平台，它可以编译代码帮你达到以下目的：
 
@@ -277,4 +277,322 @@ import hello from "./Hello.js"
 document.querySelector("#root").appendChild(hello());
 ```
 
-此时，运行本地服务器，若在浏览器中可以正常显示，说明配置成功
+此时，运行本地服务器，若在`ie浏览器`中可以正常显示，说明配置成功（高级浏览器默认支持`ES6`）
+
+### CSS
+
+`webpack`提供两个工具处理样式表，`css-loader` 和 `style-loader`，二者处理的任务不同：
+
+`style-loader`提取`CSS`文件
+
+`css-loader`处理`CSS`文件
+
+二者组合在一起使你能够把样式表嵌入`webpack`打包后的`JS`文件中。
+
+我们先安装这2个`loader`
+
+```bash
+npm install --save-dev style-loader css-loader
+```
+
+```javascript
+module.exports = {
+  ...
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        loaders: ['style-loader', 'css-loader']
+      }
+    ]
+  }
+}
+```
+这里要注意的是：先后顺序从前到后执行
+
+接下来，在app文件夹里创建一个名字为"main.css"的文件，设置样式：
+
+```css
+/* main.css */
+html {
+  background: yellow;
+}
+```
+把样式导入到main.js中
+```javascript
+//main.js
+import hello from "./Hello.js";
+import './main.css';
+document.querySelector("#root").appendChild(hello());
+```
+
+### CSS预处理器
+
+`Sass` 和 `Less` 之类的预处理器是对原生CSS的拓展，它们允许你使用类似于`variables`, `nesting`, `mixins`, `inheritance`等不存在于`CSS`中的特性来写`CSS`，`CSS预处理器`可以这些特殊类型的语句转化为浏览器可识别的`CSS`语句
+
+你现在可能都已经熟悉了，在`webpack`里使用相关`loaders`进行配置就可以使用了，以下是常用的`CSS处理loaders`:
+
+* Less Loader
+* Sass Loader
+* Stylus Loader
+
+下面我们试着使用一下`sass-loader`
+
+由于`sass-loader`的运行依赖于`node-sass`包，所以，安装：
+
+```bash
+npm install --save-dev sass-loader node-sass
+```
+配置
+```javascript
+module.exports = {
+  ...
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        loaders: ['style-loader', 'css-loader']
+      },
+      {
+        test: /(\.sass|\.scss)$/,
+        loaders: ['style-loader', 'css-loader','sass-loader']
+      }
+    ]
+  }
+}
+```
+新建`app.scss`文件
+```css
+/* app.scss */
+body {
+  background: blue;
+}
+```
+引入
+```javascript
+//main.js
+import hello from "./Hello.js";
+import './main.css';
+import './app.scss';
+document.querySelector("#root").appendChild(hello());
+```
+
+至此，我们已经谈论了处理`JS`的`Babel`和处理`CSS`的`SASS`的基本用法，它们其实也是两个单独的平台，配合`webpack`可以很好的发挥它们的作用。接下来介绍`Webpack`中另一个非常重要的功能-`Plugins`
+
+## Plugins
+
+插件（`Plugins`）是用来拓展`Webpack`功能的，它们会在整个构建过程中生效，执行相关的任务。
+
+`Loaders`和`Plugins`常常被弄混，但是他们其实是完全不同的东西，
+
+可以这么来说，`loaders`是在打包构建过程中用来处理源文件的（JSX，Scss，Less..），一次处理一个，`插件`并不直接操作单个文件，它直接对整个构建过程起作用。
+
+`Webpack`有很多内置插件，同时也有很多第三方插件，可以让我们完成更加丰富的功能。
+
+### 插件的使用
+
+在`webpack`配置中的`plugins`关键字部分添加该插件的一个实例（`plugins`是一个数组）
+
+继续上面的例子，我们添加一个给打包后代码添加版权声明的插件。
+
+```javascript
+//webpack.config.js
+const webpack = require('webpack');
+module.exports = {
+  ...
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        loaders: ['style-loader', 'css-loader']
+      },
+      {
+        test: /(\.sass|\.scss)$/,
+        loaders: ['style-loader', 'css-loader', 'sass-loader']
+      }
+    ]
+  },
+  plugins: [
+    new webpack.BannerPlugin('版权所有，翻版必究')
+  ]
+}
+```
+这就是`webpack插件`的基础用法了，下面给大家推荐几个常用的插件
+
+### HtmlWebpackPlugin
+
+这个插件的作用是依据一个简单的`index.html`模板，生成一个自动引用你打包后的`JS`文件的新`index.html`。这在每次生成的`js文件名称不同`时非常有用（比如添加了`hash`值）。
+
+安装：
+```bash
+npm install --save-dev html-webpack-plugin
+```
+
+在项目根目录下创建`index.html`文件模板
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>WSP</title>
+</head>
+
+<body>
+  <div id='root'>
+  </div>
+</body>
+
+</html>
+```
+更新`webpack`配置文件
+```javascript
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  ...
+  module: {
+    ...
+  },
+  plugins: [
+    new webpack.BannerPlugin('版权所有，翻版必究'),
+    new HtmlWebpackPlugin({
+      template: __dirname + "/index.html"
+    })
+  ]
+}
+```
+再次执行`npm start`你会发现，`build`文件夹下面生成了`bundle.js`和`index.html`。
+
+### 优化插件
+
+`webpack`提供了一些在发布阶段非常有用的优化插件，它们大多来自于`webpack社区`，可以通过`npm`安装，通过以下插件可以完成产品发布阶段所需的功能
+
+* `OccurenceOrderPlugin` :为组件分配ID，通过这个插件webpack可以分析和优先考虑使用最多的模块，并为它们分配最小的ID
+* `UglifyJsPlugin`：压缩JS代码；
+* `ExtractTextPlugin`：分离CSS和JS文件
+
+我们继续用例子来看看如何添加它们，`OccurenceOrder` 和 `UglifyJsPlugin` 都是内置插件，你需要做的只是安装其它非内置插件
+
+```bash
+npm install --save-dev extract-text-webpack-plugin
+```
+配置：
+```javascript
+//webpack.config.js
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+module.exports = {
+  ...
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: "css-loader"
+        })
+      },
+      {
+        test: /(\.sass|\.scss)$/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: ["css-loader", "sass-loader"]
+        })
+      }
+    ]
+  },
+  plugins: [
+    new webpack.BannerPlugin('版权所有，翻版必究'),
+    new HtmlWebpackPlugin({
+      template: __dirname + "/index.html"
+    }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin(),
+    new ExtractTextPlugin("style.css")
+  ]
+}
+```
+
+### 缓存
+
+缓存无处不在。
+
+`webpack`可以把一个哈希值添加到打包的文件名中，使用方法如下,添加特殊的字符串混合体`（[name], [id] and [hash]）`到输出文件名前
+
+以`hash`为例，为生成的js和css文件添加`hash`字符串
+
+```javascript
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+module.exports = {
+  entry: __dirname + '/app/main.js',
+  output: {
+    path: __dirname + '/build',
+    filename: 'bundle-[hash].js'
+  },
+  devServer: {
+    contentBase: "./build"
+  },
+  module: {
+    ...
+  },
+  plugins: [
+    new webpack.BannerPlugin('版权所有，翻版必究'),
+    new HtmlWebpackPlugin({
+      template: __dirname + "/index.html"
+    }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin(),
+    new ExtractTextPlugin("style-[hash].css")
+  ]
+}
+```
+现在用户会有合理的缓存了。
+
+### clean-webpack-plugin
+
+添加了`hash`之后，会导致改变文件内容后重新打包时，文件名不同而内容越来越多，因此这里介绍另外一个很好用的插件`clean-webpack-plugin`。
+
+```bash
+npm install --save-dev clean-webpack-plugin
+```
+
+配置
+```javascript
+...
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+
+module.exports = {
+  ...
+  plugins: [
+    ...
+    new CleanWebpackPlugin('build/*')
+  ]
+}
+```
