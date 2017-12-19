@@ -575,7 +575,7 @@ module.exports = {
 ```
 现在用户会有合理的缓存了。
 
-### clean-webpack-plugin
+### CleanWebpackPlugin
 
 添加了`hash`之后，会导致改变文件内容后重新打包时，文件名不同而内容越来越多，因此这里介绍另外一个很好用的插件`clean-webpack-plugin`。
 
