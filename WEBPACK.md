@@ -83,9 +83,9 @@ npm install --save-dev webpack
 ```javascript
 // Hello.js
 module.exports = function() {
-  var greet = document.createElement('div');
-  greet.textContent = "你好!";
-  return greet;
+  var hello = document.createElement('div');
+  hello.textContent = "你好!";
+  return hello;
 };
 ```
 
@@ -115,7 +115,7 @@ webpack {entry file} {destination for bundled file}
 node_modules/.bin/webpack app/main.js public/bundle.js
 ```
 
-可以看出`webpack`同时编译了`main.js` 和`Greeter,js`,现在打开`index.html`,此时已经成功的使用`Webpack`打包了一个文件了。
+可以看出`webpack`同时编译了`main.js` 和`Hello,js`,现在打开`index.html`,此时已经成功的使用`Webpack`打包了一个文件了。
 
 不过在终端中进行复杂的操作，其实是不太方便且容易出错的，接下来看看`Webpack`的另一种更常见的使用方法。
 
@@ -276,9 +276,9 @@ module.exports = {
  ```javascript
 // Hello.js
 export default () => {
-  let greet = document.createElement('div');
-  greet.textContent = "你好!";
-  return greet;
+  let hello = document.createElement('div');
+  hello.textContent = "你好!";
+  return hello;
 }
 ```
 
