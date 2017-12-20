@@ -55,7 +55,7 @@ npm install --save-dev webpack
 3.回到之前的空文件夹，并在里面创建两个文件夹,app文件夹和public文件夹，app文件夹用来存放原始数据和我们将写的`JavaScript`模块，public文件夹用来存放之后供浏览器读取的文件（包括使用`webpack`打包生成的`js`文件以及一个`index.html`文件）。接下来我们再创建三个文件:
 
 * `index.html` --放在public文件夹中;
-* `Greeter.js` -- 放在app文件夹中;
+* `Hello.js` -- 放在app文件夹中;
 * `main.js` -- 放在app文件夹中;
 
 我们在`index.html`文件中写入最基础的`html`代码，它在这里目的在于引入打包后的js文件（这里我们先把之后打包后的js文件命名为`bundle.js`，之后我们还会详细讲述）。
