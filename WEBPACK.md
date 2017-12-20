@@ -196,6 +196,17 @@ module.exports = {
   } 
 }
 ```
+在`package.json`中的`scripts`对象中添加如下命令，用以开启本地服务器：
+```json
+"scripts": {
+  "start": "webpack",
+  "dev": "webpack-dev-server --open"
+}
+```
+运行
+```bash
+npm run dev
+```
 
 ## loaders
 
