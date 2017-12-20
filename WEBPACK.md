@@ -1,5 +1,7 @@
 # webpack学习笔记
 
+> 本文大部分内容来自网络，仅供学习使用
+
 ## 什么是Webpack
 
 `WebPack`是一款`模块化打包工具`。
@@ -195,6 +197,17 @@ module.exports = {
     contentBase: "./public"
   } 
 }
+```
+在`package.json`中的`scripts`对象中添加如下命令，用以开启本地服务器：
+```json
+"scripts": {
+  "start": "webpack",
+  "dev": "webpack-dev-server --open"
+}
+```
+运行
+```bash
+npm run dev
 ```
 
 ## loaders
