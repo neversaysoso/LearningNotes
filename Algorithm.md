@@ -98,8 +98,8 @@ const sameObj = ((obj = {}) => (arr1, arr2) => {
 
 ### 6.写一个函数printMap(n)，实现n排n列的回旋图案
 
-例：
-```
+```javascript
+printMap(5)
 1 1 1 1 1
 0 0 0 0 1
 1 1 1 0 1
