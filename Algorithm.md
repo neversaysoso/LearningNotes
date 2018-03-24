@@ -184,9 +184,9 @@ const toChiesesNum = n => {
 ### 8.将多层嵌套数组拍平到同级
 
 ```javascript
-let l = [0, 1, [1, [2, [3, [4, [5, [6]]]]]]] //[ 0, 1, 1, 2, 3, 4, 5, 6 ]
+let arr = [0, 1, [1, [2, [3, [4, [5, [6]]]]]]] //[ 0, 1, 1, 2, 3, 4, 5, 6 ]
 ```
 
 ```javascript
-const flatten = (arr) => arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flatten(val) : val), [])
+const flatten = arr => arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flatten(val) : val), [])
 ```
