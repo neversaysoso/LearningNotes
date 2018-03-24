@@ -68,7 +68,7 @@ const printIp = (ipA, ipB) => {
 
 ### 3.写一个函数arrAll，列出一个简单数组的所有元素的所有排序方式
 ```javascript
-console.log(arrAll([1, 2, 3])) 
+arrAll([1, 2, 3])
 // [ [ 1, 2, 3 ],
 //   [ 1, 3, 2 ],
 //   [ 2, 1, 3 ],
