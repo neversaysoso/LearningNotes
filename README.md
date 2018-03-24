@@ -2,4 +2,4 @@
 
 [webpack学习笔记](./WEBPACK.md)
 
-[算法题](./Algorithm.md)
+[算法练习](./Algorithm.md)
