@@ -1,3 +1,16 @@
-let arr = [[0, 1], [1, [2, [3, [4, [5, [6]]]]]]]
-const flatten = arr => arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flatten(val) : val), [])
-console.log(flatten(arr))
+const arrAll = arr => {
+	var allarr = []
+	arr.forEach((a, item) => {
+		let _arr = arr.concat()
+		_arr.splice(item, 1)
+		if (_arr.length == 1) {
+			allarr.push([a, ..._arr])
+		} else {
+			arrAll(_arr).forEach(_a => {
+				allarr.push([a, ..._a])
+			})
+		}
+	})
+	return allarr
+}
+console.log(arrAll([1, 2, 3]))
