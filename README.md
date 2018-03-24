@@ -5,7 +5,10 @@
 # 算法练习
 
 ### 1.斐波那契数列求和
-
+```javascript
+// 1 1 2 3 5 8 13 21 ...
+total(100) // 927372692193079100000
+```
 ```javascript
 // 基本方式，可用于测试性能
 const f = n => {
@@ -64,7 +67,15 @@ const printIp = (ipA, ipB) => {
 ```
 
 ### 3.写一个函数arrAll，列出一个简单数组的所有元素的所有排序方式
-
+```javascript
+console.log(arrAll([1, 2, 3])) 
+// [ [ 1, 2, 3 ],
+//   [ 1, 3, 2 ],
+//   [ 2, 1, 3 ],
+//   [ 2, 3, 1 ],
+//   [ 3, 1, 2 ],
+//   [ 3, 2, 1 ] ]
+```
 ```javascript
 const arrAll = arr => {
 	var allarr = []
@@ -84,7 +95,11 @@ const arrAll = arr => {
 ```
 
 ### 4.重写函数console.log，要求在打印前增加一个递增的索引
-
+```javascript
+console.log('foo') // 1: foo
+console.log('foo') // 2: foo
+console.log('foo', 'fee') // 3: foo fee
+```
 ```javascript
 console.log = ((fn, count) => (...o) => {
 	fn(`${++count}:`, ...o)
@@ -106,11 +121,11 @@ const sameObj = ((obj = {}) => (arr1, arr2) => {
 
 ```javascript
 printMap(5)
-1 1 1 1 1
-0 0 0 0 1
-1 1 1 0 1
-1 0 0 0 1
-1 1 1 1 1
+// 1 1 1 1 1
+// 0 0 0 0 1
+// 1 1 1 0 1
+// 1 0 0 0 1
+// 1 1 1 1 1
 ```
 
 ```javascript
@@ -152,7 +167,9 @@ const printMap = n => {
 ```
 
 ### 7.写一个函数，要求将阿拉伯数字转换为中文数字，处理到千万级别
-
+```javascript
+toChiesesNum(10101) // 一万零一百零一
+```
 ```javascript
 const toChiesesNum = n => {
 	const chiesesNum = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九']
