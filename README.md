@@ -34,7 +34,7 @@ const total = n => {
 }
 ```
 
-### 2.写一个函数printIp，列出3个ip之间的所有ip
+### 2.写一个函数printIp，列出2个ip之间的所有ip
 
 ```javascript
 const printIp = (ipA, ipB) => {
@@ -109,11 +109,19 @@ console.log = ((fn, count) => (...o) => {
 ### 5.写一个函数sameObj，用来对比2个对象数列，得到2个数列中id属性相等的数列
 
 ```javascript
-const sameObj = ((obj = {}) => (arr1, arr2) => {
+const sameObj = ((obj = {}, arr = []) => (arr1, arr2) => {
 	arr1.forEach(i => {
 		obj[`${i.id}`] = i
 	})
-	return Array.from(arr2.map(i => obj[`${i.id}`]))
+	arr2.forEach(i => {
+		if (typeof obj[`${i.id}`] !== 'undefined') {
+			arr.push({
+				...obj[`${i.id}`],
+				...i
+			})
+		}
+	})
+	return arr
 })()
 ```
 
