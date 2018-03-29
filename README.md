@@ -222,7 +222,7 @@ let arr = [[0, 1], [1, [2, [3, [4, [5, [6]]]]]]] // [ 0, 1, 1, 2, 3, 4, 5, 6 ]
 const flatten = arr => arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flatten(val) : val), [])
 ```
 
-### 9.实现一个promise函数，要求把传入的多个promise函数按顺序执行。允许传入元素为promise函数的数组类型，数组内的元素同时执行。
+### 9.用Promise实现一个异步流式操作方法。比如方法`flow(a,b)`，就执行a,再执行b。如果入参中出现长嵌套数据，比如`flow(a,[b,c],d)`,就执行a,同时执行b，c，最后执行d，b与c定义为并行操作，嵌套只能有一层
 
 ```javascript
 const timeout = fn => {
@@ -237,18 +237,18 @@ const fn = x => new Promise((r, e) => {
 	})
 })
 // 主函数
-const bfnn = ((i = 0) => (...fns) => new Promise((r, e) => {
-	const cbfnn = f => Promise.all(typeof f !== 'function' ? f.map(_f => _f()) : [f()]).then(_ => {
+const flow = ((i = 0) => (...fns) => new Promise((r, e) => {
+	const fuc = f => Promise.all(typeof f !== 'function' ? f.map(_f => _f()) : [f()]).then(_ => {
 		if (++i < fns.length) {
-			return cbfnn(fns[i])
+			return fuc(fns[i])
 		} else {
 			r()
 		}
 	})
-	cbfnn(fns[0])
+	fuc(fns[0])
 }))()
 // 执行
-bfnn(_ => fn(1).then(_ => {
+flow(_ => fn(1).then(_ => {
 	console.log('1isok')
 }), _ => fn(2), [_ => fn(3), _ => fn(6)], _ => fn(4), _ => fn(5)).then(_ => {
 	console.log('ok')
